@@ -14,23 +14,26 @@ pipeline {
 
         stage('Build WAR') {
             steps {
-                // Prepare Maven artifact
                 sh 'mvn clean package -DskipTests'
             }
         }
-		
-		stage('JENKINS TO NEXUS') {
-            steps {
-              withMaven(globalMavenSettingsConfig: 'settings.xml', jdk: 'jkd17', maven: 'maven3', traceability: true) {
-             sh 'mvn deploy'
 
+        stage('JENKINS TO NEXUS') {
+            steps {
+                withMaven(globalMavenSettingsConfig: 'settings.xml', 
+                          jdk: 'jdk17', 
+                          maven: 'maven3', 
+                          traceability: true) {
+                    sh 'mvn deploy'
+                }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
                 script {
                     def commit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
 
-                    // Dockerfile now just copies the prepared WAR
                     sh """
                         docker build -t ${IMAGE_NAME}:${commit} .
                         docker tag ${IMAGE_NAME}:${commit} ${IMAGE_NAME}:latest
@@ -52,8 +55,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker system prune -af'  // optional cleanup
+            sh 'docker system prune -af'
         }
     }
 }
-
