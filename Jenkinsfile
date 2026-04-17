@@ -19,6 +19,8 @@ pipeline {
         }
 
         stage('JENKINS TO NEXUS') {
+            when {
+        expression { return false }   // always skip
             steps {
                 withMaven(globalMavenSettingsConfig: 'settings.xml', 
                           jdk: 'jdk17', 
