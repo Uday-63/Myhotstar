@@ -1,5 +1,5 @@
 # Stage 2: Run WAR in Tomcat (Alpine)
-FROM tomcat:9.0.78-jdk8-openjdk-alpine
+FROM tomcat:9.0-jdk8
 
 # Remove default webapps
 RUN rm -rf /usr/local/tomcat/webapps/*
