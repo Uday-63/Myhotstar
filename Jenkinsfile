@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/akramsyed8046/hostar.git'
@@ -20,7 +21,8 @@ pipeline {
 
         stage('JENKINS TO NEXUS') {
             when {
-        expression { return false }   // always skip
+                expression { false }   // always skip
+            }
             steps {
                 withMaven(globalMavenSettingsConfig: 'settings.xml', 
                           jdk: 'jdk17', 
