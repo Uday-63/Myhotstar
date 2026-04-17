@@ -41,11 +41,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.1</version>
+                <configuration>
+                    <!-- ✅ Fix for missing web.xml -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <!-- ✅ Correct place (outside build) -->
+    <!-- (Optional) You actually don't need this, but keeping it correct -->
     <pluginRepositories>
         <pluginRepository>    
             <id>maven1</id>
